@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { actions } from "../actions";
+import MyPosts from "../components/profile/MyPosts";
+import ProfileInfo from "../components/profile/ProfileInfo";
 import { useAuth } from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
 import { useProfile } from "../hooks/useProfile";
@@ -34,9 +36,9 @@ export default function ProfilePage() {
     return <div>Fetching your Profile data. Please wait....</div>;
   }
   return (
-    <div>
-      Welcome, {state?.user?.firstName} {state?.user?.lastName}
-      <p>You have {state?.posts.length} post.</p>
-    </div>
+    <>
+      <ProfileInfo />
+      <MyPosts />
+    </>
   );
 }
