@@ -31,6 +31,22 @@ const postReducer = (state, action) => {
       };
     }
 
+    case actions.post.DATA_CREATED: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.data],
+      };
+    }
+
+    case actions.post.DATA_EDITED: {
+      return {
+        ...state,
+        loading: false,
+        user: action.data,
+      };
+    }
+
     default: {
       return state;
     }

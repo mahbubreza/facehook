@@ -3,15 +3,18 @@ import CommentIcon from "../../assets/icons/comment.svg";
 import LikedFilledIcon from "../../assets/icons/like-filled.svg";
 import LikeIcon from "../../assets/icons/like.svg";
 import ShareIcon from "../../assets/icons/share.svg";
+import { useAuth } from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 
-export default function PostAction({ postId, commentCount }) {
-  const [liked, setLiked] = useState(false);
+export default function PostAction({ post, commentCount }) {
   const { api } = useAxios();
+  const { auth } = useAuth();
+  const [liked, setLiked] = useState(post?.likes?.includes(auth?.user?.id));
+
   const handleLike = async () => {
     try {
       const response = await api.patch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/posts/${postId}/like`
+        `${import.meta.env.VITE_SERVER_BASE_URL}/posts/${post.id}/like`
       );
       if (response.status === 200) {
         setLiked(true);
@@ -26,8 +29,12 @@ export default function PostAction({ postId, commentCount }) {
         onClick={handleLike}
         className="flex-center gap-2 text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm"
       >
-        <img src={liked ? LikedFilledIcon : LikeIcon} alt="Like" />
-        <span>Like</span>
+        <img
+          className="w-6"
+          src={liked ? LikedFilledIcon : LikeIcon}
+          alt="Like"
+        />
+        {!liked && <span>Like</span>}
       </button>
 
       <button className="icon-btn space-x-2 px-6 py-3 text-xs lg:px-12 lg:text-sm">
